@@ -6,8 +6,8 @@
     💼 <strong>Último emprego:</strong> Estágio em engenharia de software na <strong><a href="https://www.cielo.com.br" target="_blank">@Cielo</a></strong>
   </li>
   <li>
-    🎯 <strong>Estudando:</strong>
-    back-end, arquitetura de software e boas práticas de código
+    🎯 <strong>Expert em:</strong>
+    Back-end, Java, Spring, arquitetura de software
   </li>
   <li>
     🎓 <strong>Graduando em:</strong>
