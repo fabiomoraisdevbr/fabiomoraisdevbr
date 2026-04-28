@@ -16,6 +16,8 @@
   <li>⏳ <strong>Experiência:</strong> 3 anos e meio de atuação como dev</li>
 
   <li>⭐ <strong>Jogo Favorito:</strong> Sekiro Shadows Die Twice</li>
+  <li>👾 <strong>Discord:</strong> fabiomoraisdevbr</li>
+  
 </ul>
 
 ## 🧰 Tecnologias & Ferramentas
