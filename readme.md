@@ -58,7 +58,7 @@
         <p>
           Desafio backend da
           <a href="https://exadel.com" target="_blank"> Exadel consulting</a>.
-         O desafio era criar um cenário onde dois microsserviços se comunicavam via mensageria para responder uma chamada do frontend.
+         O desafio era criar um cenário onde dois microsserviços se comunicavam via mensageria para responder uma chamada do frontend. Desafio feito com Java + Spring. Docker, Redis e PostgresSQL
         </p>
 					<a href="https://github.com/fabiomoraisdevbr/desafio-tecnico-exadel-mensageria">
 					<img src="https://img.shields.io/badge/visitar%20o%20repositório-2a2a2a?style=for-the-badge&logo=github&logoColor=white" alt="Rotas4Me">
