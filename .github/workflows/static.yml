@@ -37,6 +37,7 @@ jobs:
           mkdir public
           cp app.html public/index.html
           cp photo.png public/photo.png
+          cp photo2.png public/photo2.png
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
