@@ -17,7 +17,7 @@
 
   <li>⭐ <strong>Jogo Favorito:</strong> Sekiro Shadows Die Twice</li>
   <li>👾 <strong>Discord:</strong> fabiomoraisdevbr</li>
-  <li>📊 <strong>Site:</strong> <a href="https://www.fabiomorais.dev.br" target="_blank">FabioMorais.Dev.Br</li>
+  <li>📊 <strong>Site:</strong> <a href="https://fabiomorais.dev.br" target="_blank">FabioMorais.Dev.Br</li>
   
 </ul>
 
