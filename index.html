@@ -142,10 +142,16 @@
   position: absolute;
   bottom: 2px; right: 2px;
   width: 14px; height: 14px;
-  background: #3ba55d;
+  background: #23a55a;
   border: 2px solid var(--white);
   border-radius: 50%;
 }
+
+.discord-status--idle    { background: #f0b232; }
+.discord-status--dnd     { background: #f23f43; }
+.discord-status--offline,
+.discord-status--invisible { background: #80848e; }
+
 .discord-info { display: flex; flex-direction: column; gap: 6px; }
 .discord-name-row { display: flex; align-items: center; gap: 10px; }
 .discord-name { font-size: 1.1rem; font-weight: 700; }
@@ -157,7 +163,7 @@
   text-transform: uppercase;
   letter-spacing: .5px;
 }
-.discord-status-text { font-size: .85rem; font-style: italic; }
+.discord-status-text { font-size: .85rem;}
 .discord-activity {
   display: flex; align-items: center; gap: 8px;
   background: #f5f5f5;
@@ -198,7 +204,7 @@
 
   <header class="hero">
     <div class="photo">
-      <img src="/static/photo.png" alt="Foto de Fábio Morais" onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:.8rem;color:#999;text-align:center;padding:10px;\'>./photo.png</div>'" />
+      <img src="./photo.png" alt="Foto de Fábio Morais" onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:.8rem;color:#999;text-align:center;padding:10px;\'>./photo.png</div>'" />
     </div>
     <div>
       <h1>Fábio Morais<span class="cursor">&nbsp;</span></h1>
@@ -283,7 +289,7 @@
   <div class="discord-card">
     <div class="discord-avatar-wrap">
       <img class="discord-avatar"
-        src="/static/photo2.png"
+        src="./photo2.png"
         alt="Avatar do Discord" />
       <div class="discord-status"></div>
     </div>
@@ -338,10 +344,10 @@
   document.getElementById('year').textContent = new Date().getFullYear();
 
   // smooth highlight on nav click
-  document.querySelectorAll('nav a').forEach(a=>{
-    a.addEventListener('click',()=>{
-      document.querySelectorAll('nav a').forEach(x=>x.style.fontWeight='400');
-      a.style.fontWeight='700';
+  document.querySelectorAll('nav a').forEach(a => {
+    a.addEventListener('click', () => {
+      document.querySelectorAll('nav a').forEach(x => x.style.fontWeight = '400');
+      a.style.fontWeight = '700';
     });
   });
 
@@ -351,17 +357,13 @@
   const cursor = '<span class="cursor">&nbsp;</span>';
   let i = 0;
   h1.innerHTML = cursor;
-  const typer = setInterval(()=>{
+  const typer = setInterval(() => {
     i++;
-    h1.innerHTML = fullName.slice(0,i) + cursor;
-    if(i>=fullName.length) clearInterval(typer);
+    h1.innerHTML = fullName.slice(0, i) + cursor;
+    if (i >= fullName.length) clearInterval(typer);
   }, 90);
 
-   const games = ["Sekiro", "Pragmata", "Crash 4", "VSCode", "IntelliJ"];
-  const game = games[Math.floor(Math.random() * games.length)];
-  document.getElementById("discord-game").textContent = game;
-
-  let seconds = Math.floor(Math.random() * 7200);
+  // ── Discord integration ──────────────────────────────────────────────────────
 
   function formatTime(s) {
     const h = Math.floor(s / 3600);
@@ -372,13 +374,92 @@
     return `${sec}s`;
   }
 
-  const el = document.getElementById("discord-time");
-  el.textContent = formatTime(seconds);
+  let activityTimer = null;
 
-  setInterval(() => {
-    seconds++;
-    el.textContent = formatTime(seconds);
-  }, 1000);
+  async function loadDiscord() {
+    try {
+      const res = await fetch('https://grux.audibert.dev/user/1458918001477685374');
+      const json = await res.json();
+      const dotEl = document.querySelector('.discord-status');
+
+      if (!json.success) return;
+
+      const { profile, status, activity } = json.data;
+
+      // Avatar
+      const avatar = document.querySelector('.discord-avatar');
+      if (avatar && profile.avatar_image) {
+        avatar.src = profile.avatar_image;
+      }
+
+      // Display name
+      const nameEl = document.querySelector('.discord-name');
+      if (nameEl && profile.display_name) {
+        nameEl.textContent = profile.display_name;
+      }
+
+      const statusMap = {
+        online: 'online',
+        idle: 'ocioso',
+        dnd: 'não perturbe',
+        invisible: 'offline',
+        offline: 'offline',
+      };
+
+      const badgeEl = document.querySelector('.discord-badge');
+      if (badgeEl && status) {
+        badgeEl.textContent = statusMap[status] ?? status;
+        badgeEl.className = `discord-badge discord-badge--${status}`;
+      }
+
+      //status
+      if (dotEl) {
+      dotEl.className = `discord-status discord-status--${status}`;
+      }
+
+      // Bio / status text
+      const bioEl = document.querySelector('.discord-status-text');
+      if (bioEl) {
+        bioEl.textContent = profile.bio ?? '';
+      }
+
+      // Activity
+      const activityWrap = document.querySelector('.discord-activity');
+      const gameEl = document.getElementById('discord-game');
+      const timeEl = document.getElementById('discord-time');
+
+      if (activity && activity.length > 0) {
+        const act = activity[0];
+        if (gameEl) gameEl.textContent = act.name;
+
+        // Calcula tempo decorrido desde o timestamp de início
+        const startMs = act.timestamps?.start ?? Date.now();
+        let elapsedSeconds = Math.floor((Date.now() - startMs) / 1000);
+
+        if (timeEl) timeEl.textContent = formatTime(elapsedSeconds);
+
+        // Ticker em tempo real
+        if (activityTimer) clearInterval(activityTimer);
+        activityTimer = setInterval(() => {
+          elapsedSeconds++;
+          if (timeEl) timeEl.textContent = formatTime(elapsedSeconds);
+        }, 1000);
+
+        if (activityWrap) activityWrap.style.display = '';
+      } else {
+        // Sem atividade: esconde o bloco
+        if (activityWrap) activityWrap.style.display = 'none';
+      }
+
+    } catch (err) {
+      console.error('Erro ao carregar dados do Discord:', err);
+    }
+  }
+
+  loadDiscord();
+
+  // Re-busca a cada 60 segundos para manter status atualizado
+  setInterval(loadDiscord, 60_000);
 </script>
 </body>
 </html>
