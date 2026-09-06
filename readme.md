@@ -3,7 +3,7 @@
 <ul>
   <li>📅 <strong>Idade:</strong> 23 anos</li>
   <li>
-    💼 <strong>Último emprego:</strong> Estágio em engenharia de software na <strong><a href="https://www.cielo.com.br" target="_blank">@Cielo</a></strong>
+    💼 <strong>Posição:</strong> Engenheiro de Software Júnior na <strong><a href="https://dxc.com" target="_blank">@DXC</a></strong>
   </li>
   <li>
     🎯 <strong>Expert em:</strong>
@@ -17,7 +17,7 @@
 
   <li>⭐ <strong>Jogo Favorito:</strong> Sekiro Shadows Die Twice</li>
   <li>👾 <strong>Discord:</strong> fabiomoraisdevbr</li>
-  <li>📊 <strong>Site:</strong> <a href="https://fabiomorais.dev.br" target="_blank">FabioMorais.Dev.Br</li>
+  <li>📊 <strong>Site:</strong> <a href="https://fabiomorais.dev.br" target="_blank">FabioMorais.dev.br</li>
   
 </ul>
 
